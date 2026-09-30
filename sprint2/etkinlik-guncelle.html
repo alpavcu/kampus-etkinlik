@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Etkinlik Güncelle - Kampüs Etkinlikleri</title>
+  <link rel="stylesheet" href="css/numaran.css">
+</head>
+<body>
+
+  <header>
+    <h1>Etkinlik Güncelle</h1>
+    <nav aria-label="Ana Menü">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="etkinlikler.html">Etkinlikler</a>
+      <a href="etkinlik-ekle.html">Ekle</a>
+      <a href="etkinlik-guncelle.html">Güncelle</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="form-kapsayici">
+      <form action="#" method="post">
+        <div class="form-grup">
+          <label for="etkinlik-adi">Etkinlik adı</label>
+          <input type="text" id="etkinlik-adi" name="etkinlik-adi" value="Kariyer Günleri 2026" required>
+        </div>
+
+        <div class="form-grup">
+          <label for="kategori">Kategori</label>
+          <select id="kategori" name="kategori" required>
+            <option value="">Seçiniz ▾</option>
+            <option value="seminer" selected>Seminer</option>
+            <option value="atolye">Atölye</option>
+            <option value="soylesi">Söyleşi</option>
+          </select>
+        </div>
+
+        <div class="form-grup">
+          <label for="tarih">Tarih</label>
+          <input type="date" id="tarih" name="tarih" value="2026-10-12" required>
+        </div>
+
+        <div class="form-grup">
+          <label for="aciklama">Açıklama</label>
+          <textarea id="aciklama" name="aciklama" rows="4">Mezun söyleşileri</textarea>
+        </div>
+
+        <div>
+          <button type="submit" class="buton-birincil">Güncelle</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>Alp Avcu — 21210327744 · 2026</p>
+  </footer>
+
+</body>
+</html>
