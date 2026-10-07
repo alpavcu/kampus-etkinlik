@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tüm Etkinlikler - Kampüs Etkinlikleri</title>
+  <link rel="stylesheet" href="css/numaran.css">
+  <script type="module" src="js/event-list.js"></script>
+</head>
+<body>
+
+  <header>
+    <h1>Tüm Etkinlikler</h1>
+    <nav aria-label="Ana Menü">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="etkinlikler.html">Etkinlikler</a>
+      <a href="etkinlik-ekle.html">Ekle</a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <h2>Tüm Kampüs Etkinlikleri</h2>
+
+      <!-- ADIM 6: Filtre Alanları -->
+      <form id="filtre-formu" class="filtre">
+        <div class="filtre-grup">
+          <label for="arama">Etkinlik ara</label>
+          <input type="search" id="arama" placeholder="atölye, kariyer...">
+        </div>
+        <div class="filtre-grup">
+          <label for="kategori-filtre">Kategori</label>
+          <select id="kategori-filtre">
+            <option value="">Tümü</option>
+          </select>
+        </div>
+      </form>
+
+      <!-- ADIM 6: Sonuç Satırı -->
+      <p id="sonuc"></p>
+
+      <!-- ADIM 3: Boş Konteyner -->
+      <section id="etkinlik-listesi" class="etkinlik-izgara etkinlik-izgara-3">
+        <!-- Kartlar event-list.js tarafından üretilecek -->
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <p>Alp Avcu — 21210327744 · 2026</p>
+  </footer>
+
+</body>
+</html>

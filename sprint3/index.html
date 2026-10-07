@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kampüs Etkinlikleri - Ana Sayfa</title>
+  <link rel="stylesheet" href="css/numaran.css">
+  <script type="module" src="js/event-list.js"></script>
+</head>
+<body>
+
+  <header>
+    <h1>Kampüs Etkinlikleri</h1>
+    <nav aria-label="Ana Menü">
+      <a href="index.html">Ana Sayfa</a>
+      <a href="etkinlikler.html">Etkinlikler</a>
+      <a href="etkinlik-ekle.html">Ekle</a>
+    </nav>
+  </header>
+
+  <main>
+    <p>Fakültedeki seminer, atölye ve söyleşileri tek yerden takip edin.</p>
+
+    <section>
+      <h2>Yaklaşan 2 Etkinlik</h2>
+      <section id="etkinlik-listesi" class="etkinlik-izgara etkinlik-izgara-2" data-limit="2">
+        <!-- Kartlar event-list.js tarafından üretilecek -->
+      </section>
+
+      <p><a href="etkinlikler.html" class="tum-etkinlikler-link">Tüm etkinlikleri gör →</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Alp Avcu — 21210327744 · 2026</p>
+  </footer>
+
+</body>
+</html>

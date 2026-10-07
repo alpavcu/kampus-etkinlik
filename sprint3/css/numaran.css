@@ -1,0 +1,502 @@
+/* Alp Avcu — 21210327744 */
+:root {
+  --no: 21210327744;
+  --ton: 24;
+  --ton: mod(var(--no), 360);
+  --renk-ana: hsl(24 65% 38%);
+  --renk-ana: hsl(var(--ton) 65% 38%);
+  --renk-zemin: hsl(24 30% 97%);
+  --renk-zemin: hsl(var(--ton) 30% 97%);
+  --font: Georgia, serif;
+  --bosluk-m: 1rem;  --kose: 8px;
+
+  /* Yardımcı değişkenler - var(--...) ile kullanım */
+  --bosluk-xs: calc(var(--bosluk-m) * 0.25);
+  --bosluk-s: calc(var(--bosluk-m) * 0.5);
+  --bosluk-l: calc(var(--bosluk-m) * 1.5);
+  --bosluk-xl: calc(var(--bosluk-m) * 2);
+  --renk-kart-zemin: #ffffff;
+  --renk-kenar: #d8d8d8;
+  --renk-metin: #222222;
+  --renk-metin-hafif: #555555;
+  --renk-hata: #d32f2f;
+  --renk-ana-koyu: hsl(24 70% 30%);
+  --renk-ana-koyu: hsl(var(--ton) 70% 30%);
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--renk-zemin);
+  color: var(--renk-metin);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   Üst Bilgi ve Menü (Ortak)
+   ========================================================= */
+header {
+  background-color: var(--renk-ana);
+  color: #ffffff;
+  padding: var(--bosluk-m);
+  text-align: center;
+}
+
+header h1 {
+  margin: 0 0 var(--bosluk-s) 0;
+  font-size: 1.75rem;
+  color: #ffffff;
+}
+
+header nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--bosluk-m);
+}
+
+header nav a {
+  color: #ffffff;
+  text-decoration: underline;
+  font-weight: 500;
+  font-size: 1.05rem;
+  padding: var(--bosluk-xs) var(--bosluk-s);
+  border-radius: var(--kose);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+header nav a:hover,
+header nav a:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* =========================================================
+   Ana İçerik Taşıyıcı
+   ========================================================= */
+main {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: var(--bosluk-m);
+}
+
+main h2 {
+  color: var(--renk-metin);
+  margin-top: var(--bosluk-m);
+  margin-bottom: var(--bosluk-s);
+}
+
+/* =========================================================
+   Filtreleme Alanı (Sprint 3: Adım 6)
+   Telefonda iki alan alt alta, geniş ekranda yan yana
+   ========================================================= */
+.filtre {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--bosluk-m);
+  background-color: var(--renk-kart-zemin);
+  padding: var(--bosluk-m);
+  border-radius: var(--kose);
+  border: 1px solid var(--renk-kenar);
+  margin-bottom: var(--bosluk-s);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+@media (min-width: 768px) {
+  .filtre {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.filtre-grup {
+  display: flex;
+  flex-direction: column;
+}
+
+.filtre-grup label {
+  font-weight: bold;
+  margin-bottom: var(--bosluk-xs);
+  color: var(--renk-metin);
+}
+
+.filtre-grup input[type="search"],
+.filtre-grup select {
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--kose);
+  font-family: inherit;
+  font-size: 1rem;
+  min-height: 44px;
+  background-color: #ffffff;
+}
+
+.filtre-grup input[type="search"]:focus,
+.filtre-grup select:focus {
+  outline: none;
+  border-color: var(--renk-ana);
+  box-shadow: 0 0 0 2px rgba(158, 62, 19, 0.2);
+}
+
+#sonuc {
+  font-weight: 500;
+  color: var(--renk-metin-hafif);
+  margin: var(--bosluk-s) 0 var(--bosluk-m) 0;
+}
+
+/* =========================================================
+   Kart Izgarası (Grid)
+   Telefon -> tek sütun (öncelik)
+   Geniş ekran -> birden fazla sütun
+   ========================================================= */
+.etkinlik-izgara {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--bosluk-m);
+  margin: var(--bosluk-m) 0;
+}
+
+/* index.html: Sadece yaklaşan 2 etkinlik, masaüstünde yan yana */
+@media (min-width: 768px) {
+  .etkinlik-izgara-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* etkinlikler.html: Tüm etkinlikler masaüstünde üç sütun kart */
+@media (min-width: 768px) {
+  .etkinlik-izgara-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.kart {
+  background-color: var(--renk-kart-zemin);
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--kose);
+  padding: var(--bosluk-m);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.kart h3 {
+  margin: 0 0 var(--bosluk-xs) 0;
+  font-size: 1.25rem;
+  color: var(--renk-metin);
+}
+
+.kart .kategori {
+  color: var(--renk-ana);
+  font-weight: bold;
+  margin: var(--bosluk-xs) 0;
+}
+
+.kart .tarih,
+.kart .yer,
+.kart .kontenjan {
+  color: var(--renk-metin-hafif);
+  margin: var(--bosluk-xs) 0;
+  font-size: 0.95rem;
+}
+
+.kart .aciklama {
+  margin: var(--bosluk-s) 0;
+  color: var(--renk-metin);
+  font-size: 0.95rem;
+}
+
+.kart .detay-link,
+.tum-etkinlikler-link {
+  margin-top: auto;
+  padding-top: var(--bosluk-s);
+  color: var(--renk-ana);
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.kart .detay-link:hover,
+.tum-etkinlikler-link:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   Detay Sayfası: Afiş ve Künye (Sprint 3: Adım 8 & 11)
+   Afiş solda, künye sağda; telefonda alt alta
+   ========================================================= */
+.detay-kapsayici {
+  background-color: var(--renk-kart-zemin);
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--kose);
+  padding: var(--bosluk-m);
+  display: flex;
+  flex-direction: column;
+  gap: var(--bosluk-l);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+@media (min-width: 768px) {
+  .detay-kapsayici {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    padding: var(--bosluk-l);
+  }
+}
+
+.detay-kapsayici figure {
+  margin: 0;
+  text-align: center;
+}
+
+.detay-kapsayici figure img {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  border-radius: var(--kose);
+  display: block;
+  margin: 0 auto var(--bosluk-s) auto;
+  border: 1px solid var(--renk-kenar);
+}
+
+.detay-kapsayici figure figcaption {
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--renk-metin-hafif);
+}
+
+.detay-bilgi dl {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  row-gap: var(--bosluk-s);
+  column-gap: var(--bosluk-m);
+  margin: 0 0 var(--bosluk-m) 0;
+}
+
+.detay-bilgi dt {
+  font-weight: bold;
+  color: var(--renk-metin);
+}
+
+.detay-bilgi dd {
+  margin: 0;
+  color: var(--renk-metin-hafif);
+}
+
+.detay-bilgi .aciklama {
+  margin: var(--bosluk-m) 0;
+  color: var(--renk-metin);
+  line-height: 1.6;
+}
+
+.detay-aksiyonlar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bosluk-m);
+  margin-top: var(--bosluk-l);
+}
+
+/* =========================================================
+   Form Tasarımı (Ekle & Güncelle)
+   Label üstte, hatalı alan kırmızı, butonlar parmakla basılır
+   ========================================================= */
+.form-kapsayici {
+  background-color: var(--renk-kart-zemin);
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--kose);
+  padding: var(--bosluk-l);
+  max-width: 580px;
+  margin: var(--bosluk-m) auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.form-bilgi {
+  font-size: 0.9rem;
+  color: var(--renk-metin-hafif);
+  margin-top: 0;
+  margin-bottom: var(--bosluk-m);
+}
+
+.form-grup {
+  margin-bottom: var(--bosluk-m);
+}
+
+.form-grup label {
+  display: block;
+  margin-bottom: var(--bosluk-xs);
+  font-weight: bold;
+  color: var(--renk-metin);
+}
+
+.form-grup input[type="text"],
+.form-grup input[type="date"],
+.form-grup input[type="time"],
+.form-grup input[type="number"],
+.form-grup select,
+.form-grup textarea {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  font-family: inherit;
+  font-size: 1rem;
+  border: 1px solid var(--renk-kenar);
+  border-radius: var(--kose);
+  background-color: #ffffff;
+  color: var(--renk-metin);
+  min-height: 44px; /* Parmakla basılır */
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-grup textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-grup input:focus,
+.form-grup select:focus,
+.form-grup textarea:focus {
+  outline: none;
+  border-color: var(--renk-ana);
+  box-shadow: 0 0 0 2px rgba(158, 62, 19, 0.2);
+}
+
+/* Hata mesajı ve kırmızı çerçeve (Sprint 3: Adım 10) */
+.hata-mesaj {
+  display: block;
+  color: var(--renk-hata);
+  font-size: 0.85rem;
+  margin-top: 0.35rem;
+  font-weight: 500;
+}
+
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: var(--renk-hata) !important;
+  background-color: #fff9f9;
+}
+
+/* =========================================================
+   Mesaj Kutuları (Hata ve Başarı)
+   ========================================================= */
+.mesaj-basari-kutu {
+  background-color: #f1f8e9;
+  border: 1px solid #81c784;
+  border-radius: var(--kose);
+  padding: var(--bosluk-m);
+  margin-top: var(--bosluk-l);
+  color: #2e7d32;
+}
+
+.mesaj-basari-kutu .basari-metin {
+  margin-top: 0;
+  margin-bottom: var(--bosluk-s);
+}
+
+.mesaj-basari-kutu pre {
+  background-color: #ffffff;
+  border: 1px solid #c8e6c9;
+  padding: var(--bosluk-m);
+  border-radius: var(--kose);
+  overflow-x: auto;
+  color: #1b5e20;
+  font-family: "Courier New", monospace;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.mesaj-hata-kutu {
+  background-color: #ffebee;
+  border: 1px solid #e57373;
+  border-radius: var(--kose);
+  padding: var(--bosluk-l);
+  margin: var(--bosluk-l) auto;
+  text-align: center;
+  max-width: 600px;
+  color: #c62828;
+}
+
+.mesaj-hata-kutu .hata-metin {
+  font-size: 1.1rem;
+  margin-top: 0;
+  margin-bottom: var(--bosluk-m);
+  font-weight: 500;
+}
+
+/* =========================================================
+   Butonlar
+   ========================================================= */
+.buton-birincil {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--renk-ana);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--kose);
+  padding: 0.75rem 1.75rem;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: bold;
+  cursor: pointer;
+  min-height: 48px;
+  min-width: 130px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.buton-birincil:hover,
+.buton-birincil:focus {
+  background-color: var(--renk-ana-koyu);
+  text-decoration: none;
+}
+
+.buton-ikincil {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #455a64;
+  color: #ffffff;
+  border: none;
+  border-radius: var(--kose);
+  padding: 0.75rem 1.5rem;
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: bold;
+  cursor: pointer;
+  min-height: 48px;
+  min-width: 130px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.buton-ikincil:hover,
+.buton-ikincil:focus {
+  background-color: #263238;
+  text-decoration: none;
+}
+
+/* =========================================================
+   Alt Bilgi (Footer) - Künye
+   ========================================================= */
+footer {
+  text-align: center;
+  padding: var(--bosluk-m);
+  margin-top: var(--bosluk-xl);
+  font-size: 0.95rem;
+  color: var(--renk-metin-hafif);
+  border-top: 1px solid var(--renk-kenar);
+}
