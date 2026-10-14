@@ -92,7 +92,8 @@ if (list) {
         const titleMatch = e.title.toLocaleLowerCase("tr-TR").includes(aranan);
         const descMatch = e.description.toLocaleLowerCase("tr-TR").includes(aranan);
         const locMatch = e.location.toLocaleLowerCase("tr-TR").includes(aranan);
-        const metinUyuyor = !aranan || (titleMatch || descMatch || locMatch);
+        const catMatch = e.category.toLocaleLowerCase("tr-TR").includes(aranan);
+        const metinUyuyor = !aranan || (titleMatch || descMatch || locMatch || catMatch);
         const kategoriUyuyor = !secilenKategori || e.category === secilenKategori;
         return metinUyuyor && kategoriUyuyor;
       });
