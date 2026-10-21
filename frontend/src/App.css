@@ -51,19 +51,21 @@ header,
 .site-baslik {
   background-color: var(--renk-ana);
   color: #ffffff;
-  padding: var(--bosluk-m);
+  padding: var(--bosluk-m) var(--bosluk-m) var(--bosluk-s);
   text-align: center;
 }
 
 header h1,
 .site-baslik h1 {
-  margin: 0 0 var(--bosluk-s) 0;
+  margin: 0;
   font-size: 1.75rem;
   color: #ffffff;
 }
 
 header nav,
 .menu {
+  background-color: var(--renk-ana);
+  padding: 0 var(--bosluk-m) var(--bosluk-m);
   display: flex;
   justify-content: center;
   align-items: center;
