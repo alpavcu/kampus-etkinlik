@@ -55,6 +55,13 @@ Bu proje, üniversite kampüsündeki seminer, atölye ve söyleşi gibi etkinlik
 - Formlar sadece görünüm (Adım 13: `preventDefault()`, state kaydetme yok).
 - Etiket: `sprint-04`.
 
+### Sprint 5: React Bileşenleri
+- `App.tsx` kodları 8 adlandırılmış modüler React bileşenine ayrıştırıldı (`layout/Header`, `layout/Navigation`, `layout/Footer`, `events/EventCard`, `events/EventList`, `events/EventFilter`, `events/EventDetail`, `forms/EventForm`).
+- `PageName` tipi `types/page.ts` dosyasına, `formatDate` yardımcı fonksiyonu `utils/format-date.ts` dosyasına taşındı.
+- State lifted olarak `App.tsx` içinde tutuldu, bileşenler props ve callback mimarisiyle haberleşti.
+- `App.tsx` satır sayısı 376'dan tam 90 satıra indirildi.
+- Etiket: `sprint-05`.
+
 ---
 
 ## Vercel Yayına Alma (Sprint 4 Ayarları)
