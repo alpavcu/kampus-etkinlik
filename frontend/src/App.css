@@ -477,3 +477,142 @@ footer {
   color: var(--renk-metin-hafif);
   border-top: 1px solid var(--renk-kenar);
 }
+
+/* =========================================================
+   Sprint 6: Form Hata ve Başarı Stilleri
+   ========================================================= */
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+  border-color: var(--renk-hata) !important;
+}
+
+.hata-metni {
+  display: block;
+  color: var(--renk-hata);
+  font-size: 0.85rem;
+  margin-top: var(--bosluk-xs);
+  font-weight: 500;
+}
+
+.mesaj-basari {
+  background-color: #e8f5e9;
+  border: 1px solid #81c784;
+  color: #2e7d32;
+  padding: var(--bosluk-m);
+  border-radius: var(--kose);
+  margin-bottom: var(--bosluk-m);
+  font-weight: 500;
+}
+
+.sayfa-bulunamadi {
+  text-align: center;
+  padding: var(--bosluk-xl) var(--bosluk-m);
+}
+
+/* =========================================================
+   Sprint 6: Yönetim Tablosu ve Responsive Kart Görünümü
+   ========================================================= */
+.tablo {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--bosluk-m);
+  background-color: var(--renk-kart-zemin);
+  border-radius: var(--kose);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.tablo th {
+  background: var(--renk-ana);
+  color: #ffffff;
+  padding: var(--bosluk-s) var(--bosluk-m);
+  text-align: left;
+  font-weight: 600;
+}
+
+.tablo td {
+  padding: var(--bosluk-s) var(--bosluk-m);
+  border-bottom: 1px solid var(--renk-kenar);
+}
+
+.islemler {
+  display: flex;
+  gap: var(--bosluk-s);
+  align-items: center;
+}
+
+.buton-duzenle {
+  background: var(--renk-ana);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--kose);
+  padding: 0.35rem 0.85rem;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.buton-duzenle:hover {
+  background-color: var(--renk-ana-koyu);
+  text-decoration: none;
+}
+
+.buton-sil {
+  background: var(--renk-hata);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--kose);
+  padding: 0.35rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.buton-sil:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 699px) {
+  .tablo thead {
+    display: none;
+  }
+  .tablo,
+  .tablo tbody {
+    display: block;
+    width: 100%;
+    background: transparent;
+    box-shadow: none;
+  }
+  .tablo tr {
+    display: block;
+    border: 1px solid var(--renk-kenar);
+    border-radius: var(--kose);
+    margin-bottom: var(--bosluk-m);
+    background: var(--renk-kart-zemin);
+    padding: var(--bosluk-s);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  .tablo td {
+    display: block;
+    border-bottom: none;
+    padding: var(--bosluk-xs) var(--bosluk-s);
+  }
+  .tablo td.islemler {
+    display: flex;
+    margin-top: var(--bosluk-s);
+    padding-top: var(--bosluk-xs);
+    border-top: 1px dashed var(--renk-kenar);
+  }
+  .tablo td[data-baslik]::before {
+    content: attr(data-baslik) ": ";
+    font-weight: 700;
+  }
+}
+

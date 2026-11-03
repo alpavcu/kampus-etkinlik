@@ -3,13 +3,11 @@ import EventCard from "./EventCard";
 
 interface EventListProps {
   events: CampusEvent[];
-  onShowDetail: (id: string) => void;
   emptyText?: string;
 }
 
 export default function EventList({
   events,
-  onShowDetail,
   emptyText = "Aramanıza uygun etkinlik bulunamadı.",
 }: EventListProps) {
   if (events.length === 0) {
@@ -19,11 +17,7 @@ export default function EventList({
   return (
     <>
       {events.map((event) => (
-        <EventCard
-          key={event.id}
-          event={event}
-          onShowDetail={onShowDetail}
-        />
+        <EventCard key={event.id} event={event} />
       ))}
     </>
   );
