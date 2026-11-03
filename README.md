@@ -1,4 +1,4 @@
-# Canlı Yayın (Vercel) URL: https://kampus-etkinlik-sprint2-one.vercel.app/
+# Canlı Yayın (Vercel) URL: https://alpavcu-frontend.vercel.app/
 
 # Kampüs Etkinlikleri — Sprint 6 + Vize
 
@@ -6,7 +6,7 @@
 - **Ad Soyad:** Alp Avcu
 - **Öğrenci Numarası:** 2121032744 (21210327744)
 - **Tasarım Parametreleri:** Font: **Georgia, serif** | Ton: `224` (Mavi palet)
-- **Canlı Vercel Adresi:**: https://kampus-etkinlik-sprint2-one.vercel.app/
+- **Canlı Vercel Adresi:**: https://alpavcu-frontend.vercel.app/
 
 ---
 
