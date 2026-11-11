@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import eventRoutes from './routes/event-routes.js';
 
 const app = express();
 
@@ -14,6 +15,9 @@ app.get('/health', (req, res) => {
     student: '21210327744'
   });
 });
+
+// Event routes
+app.use('/events', eventRoutes);
 
 // Catch-all 404 handler
 app.use((req, res) => {
