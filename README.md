@@ -1,59 +1,53 @@
 # Canlı Yayın (Vercel) URL: https://alpavcu-frontend.vercel.app/
 
-# Kampüs Etkinlikleri — Sprint 6 + Vize
+# Kampüs Etkinlikleri
 
 **Öğrenci Bilgileri:**
 - **Ad Soyad:** Alp Avcu
 - **Öğrenci Numarası:** 2121032744 (21210327744)
 - **Tasarım Parametreleri:** Font: **Georgia, serif** | Ton: `224` (Mavi palet)
-- **Canlı Vercel Adresi:**: https://alpavcu-frontend.vercel.app/
+- **Canlı Vercel Adresi (Frontend):** https://alpavcu-frontend.vercel.app/
+- **Backend Adresi (Yerel):** http://localhost:3000
 
 ---
 
 ## Proje Hakkında
 
-Bu proje, üniversite kampüsündeki seminer, atölye, söyleşi ve yarışma gibi etkinliklerin listelenmesi, detaylarının incelenmesi, gerçek zamanlı aranması, filtrelenmesi ve yönetim paneli üzerinden tam yetkili olarak yönetilmesi (ekleme, güncelleme, silme ve onay) amacıyla geliştirilmiş modern bir Single Page Application (SPA) web uygulamasıdır.
+Bu proje, üniversite kampüsündeki seminer, atölye, söyleşi ve yarışma gibi etkinliklerin listelenmesi, detaylarının incelenmesi, gerçek zamanlı aranması, filtrelenmesi, yönetim paneli üzerinden yönetilmesi ve Express REST API backend servisi ile sunulması amacıyla geliştirilmiş modern bir web uygulamasıdır.
 
 ---
 
 ## Kullanılan Teknolojiler
 
-- **React 19**
-- **TypeScript 5.9**
-- **Vite 8**
-- **React Router 7 (`react-router-dom`)**
-- **React Context API** (Global state yönetimi)
-- **CSS3 & Responsive Design** (Mobil ve masaüstü uyumlu)
+- **Frontend:** React 19, TypeScript 5.9, Vite 8, React Router 7 (`react-router-dom`), React Context API, CSS3
+- **Backend:** Node.js, Express 5, dotenv, cors, REST API mimarisi
 
 ---
 
 ## Kurulum ve Çalıştırma
 
-Projeyi yerel makinenizde çalıştırmak için terminalde sırasıyla aşağıdaki komutları uygulayabilirsiniz:
-
+### Frontend (İstemci)
 ```bash
-# Frontend klasörüne geçin
 cd frontend
-
-# Bağımlılıkları yükleyin
 npm install
+npm run dev      # Geliştirme sunucusu
+npm run build    # Production build
+npm run preview  # Build önizleme
+```
 
-# Geliştirme sunucusunu başlatın
-npm run dev
-
-# Canlı üretim (production) derlemesini oluşturun
-npm run build
-
-# Derlenen projeyi önizleyin
-npm run preview
+### Backend (REST API Sunucusu)
+```bash
+cd backend
+npm install
+npm run dev      # node --watch src/server.js (http://localhost:3000)
+npm start        # node src/server.js
 ```
 
 ---
 
-## Route Haritası (10 Adres, 10 Sayfa)
+## Route ve Endpoint Haritası
 
-Uygulama `react-router-dom` ile 10 farklı rotayı eksiksiz desteklemektedir:
-
+### Frontend Sayfa Rotaları (React Router)
 | URL | Sayfa Bileşeni | Açıklama |
 |---|---|---|
 | `/` | `HomePage` | Yaklaşan en yakın 2 etkinliği ve tüm etkinliklere geçiş butonunu listeler |
@@ -67,59 +61,15 @@ Uygulama `react-router-dom` ile 10 farklı rotayı eksiksiz desteklemektedir:
 | `/admin/:id/edit` | `EditEventPage` | Mevcut etkinlik bilgilerini dolduran güncelleme formu (`updateEvent`) |
 | `*` | `NotFoundPage` | Geçersiz adreslerde veya bulunamayan etkinliklerde gösterilen 404 sayfası |
 
----
-
-## Dosya ve Klasör Yapısı
-
-```
-frontend/
-  ├── public/
-  │   └── afis.svg
-  ├── src/
-  │   ├── assets/
-  │   ├── components/
-  │   │   ├── events/
-  │   │   │   ├── EventCard.tsx      (Tekil kart; Link to /events/:id)
-  │   │   │   ├── EventDetail.tsx    (Detay görünümü; Link to /events & /admin/:id/edit)
-  │   │   │   ├── EventFilter.tsx    (Arama ve kategori filtre formu)
-  │   │   │   └── EventList.tsx      (Etkinlik ızgara listesi)
-  │   │   ├── forms/
-  │   │   │   └── EventForm.tsx      (Ortak kontrollü form, 7 kural doğrulama)
-  │   │   └── layout/
-  │   │       ├── Footer.tsx         (Öğrenci künyesi ve telif alanı)
-  │   │       ├── Header.tsx         (Site başlığı ve alt başlığı)
-  │   │       └── Navigation.tsx     (NavLink ile aktif sayfa işaretlemeli menü)
-  │   ├── context/
-  │   │   └── EventsContext.tsx      (EventsProvider & useEvents hook: add, update, delete)
-  │   ├── data/
-  │   │   └── events.ts              (Başlangıç 6 mock etkinlik verisi)
-  │   ├── pages/
-  │   │   ├── AddEventPage.tsx
-  │   │   ├── AdminPage.tsx
-  │   │   ├── EditEventPage.tsx
-  │   │   ├── EventDetailPage.tsx
-  │   │   ├── EventsPage.tsx
-  │   │   ├── ForgotPasswordPage.tsx
-  │   │   ├── HomePage.tsx
-  │   │   ├── LoginPage.tsx
-  │   │   ├── NotFoundPage.tsx
-  │   │   └── RegisterPage.tsx
-  │   ├── types/
-  │   │   ├── campus-event.ts        (CampusEvent, Category)
-  │   │   └── EventFormData.ts       (EventFormData, EventFormErrors)
-  │   ├── utils/
-  │   │   ├── filter-events.ts       (searchEvents, filterByCategory, findEventById)
-  │   │   ├── format-date.ts         (formatDate saf fonksiyonu)
-  │   │   └── validate-event.ts      (validateEvent saf doğrulama fonksiyonu)
-  │   ├── App.css                    (Öğrenci numarasına özel renk/font ve responsive CSS)
-  │   ├── App.tsx                    (Ortak iskelet ve Routes haritası)
-  │   ├── index.css
-  │   └── main.tsx                   (BrowserRouter > EventsProvider > App)
-  ├── vercel.json                    (SPA derin linkler için rewrite kuralı)
-  ├── package.json
-  ├── tsconfig.json
-  └── vite.config.ts
-```
+### Backend REST API Endpoint'leri (Sprint 7)
+| METHOD | ENDPOINT | AÇIKLAMA | DURUM |
+|---|---|---|---|
+| GET | `/health` | Sunucu kontrolü ve öğrenci no (`21210327744`) | Sprint 7 |
+| GET | `/events` | Tüm etkinlik listesi (opsiyonel `?category=` filtresi) | Sprint 7 |
+| GET | `/events/:id` | Tek etkinlik detayı (bulunamadıysa 404) | Sprint 7 |
+| POST | `/events` | Yeni etkinlik oluşturma (zorunlu: title, category, date) | Sprint 7 |
+| PATCH | `/events/:id` | Etkinlik güncelleme | Sprint 9 |
+| DELETE | `/events/:id` | Etkinlik silme | Sprint 9 |
 
 ---
 
@@ -147,25 +97,28 @@ frontend/
 - Etiket: `sprint-04`.
 
 ### Sprint 5: React Bileşenleri
-- `App.tsx` kodları 8 adlandırılmış modüler React bileşenine ayrıştırıldı (`layout/Header`, `layout/Navigation`, `layout/Footer`, `events/EventCard`, `events/EventList`, `events/EventFilter`, `events/EventDetail`, `forms/EventForm`).
-- `PageName` tipi `types/page.ts` dosyasına, `formatDate` yardımcı fonksiyonu `utils/format-date.ts` dosyasına taşındı.
+- `App.tsx` kodları 8 adlandırılmış modüler React bileşenine ayrıştırıldı.
 - State lifted olarak `App.tsx` içinde tutuldu, bileşenler props ve callback mimarisiyle haberleşti.
-- `App.tsx` satır sayısı 376'dan 90 satıra indirildi.
+- `App.tsx` satır sayısı 90 satıra indirildi.
 - Etiket: `sprint-05`.
 
 ### Sprint 6 + Vize: Router, Context, Yönetim Paneli ve Formlar
-- `react-router-dom` entegre edildi, 10 route tanımlandı (`/`, `/events`, `/events/:id`, `/login`, `/register`, `/forgot-password`, `/admin`, `/admin/new`, `/admin/:id/edit`, `*`).
+- `react-router-dom` entegre edildi, 10 route tanımlandı.
 - `EventsContext` oluşturuldu; `events`, `addEvent`, `updateEvent`, `deleteEvent` fonksiyonları ve `useEvents` hook'u bağlandı.
-- Etkinlik formu gerçek kontrollü form durumuna geçirildi (`EventFormData`), `validateEvent` ile 7 alanın validasyonu sağlandı ve hata mesajları kutu altına yerleştirildi.
-- Yönetim paneli (`/admin`) masaüstünde şık bir tablo, mobilde (360-390px) kart görünümüne dönüşecek şekilde responsive olarak geliştirildi (`data-baslik` öznitelikleri).
-- Silme işleminde `window.confirm` ile onay mekanizması kuruldu.
-- Giriş, kayıt ve şifremi unuttum sayfaları istemci tarafı validasyonlarıyla geliştirildi.
-- `vercel.json` SPA yönlendirmeleri eklendi.
+- Form validasyonları ve yönetim paneli responsive tablosu geliştirildi.
 - Etiket: `frontend`.
+
+### Sprint 7: Express ile REST API (Backend Başlangıç)
+- `backend/` klasöründe Express 5, dotenv, cors tabanlı modüler REST API mimarisi kuruldu.
+- `app.js`, `server.js`, `routes/event-routes.js`, `controllers/event-controller.js`, `data/events.js` katmanları ayrıştırıldı.
+- `GET /health` endpoint'i ile sistem kontrolü ve `student: "21210327744"` doğrulaması sağlandı.
+- `GET /events`, `GET /events/:id` ve `POST /events` endpoint'leri eksiksiz doğrulama ve durum kodlarıyla (`200`, `201`, `400`, `404`) uygulandı.
+- Postman Collection v2.1 formatında `requests/kampus-api.json` koleksiyonu 6 test ile oluşturuldu.
+- Etiket: `sprint-07`.
 
 ---
 
-## Vercel Yayına Alma Ayarları
+## Vercel Yayına Alma Ayarları (Frontend)
 - **Root Directory:** `frontend`
 - **Framework Preset:** `Vite`
 - **Build Command:** `npm run build`
