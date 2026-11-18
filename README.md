@@ -20,7 +20,7 @@ Bu proje, üniversite kampüsündeki seminer, atölye, söyleşi ve yarışma gi
 ## Kullanılan Teknolojiler
 
 - **Frontend:** React 19, TypeScript 5.9, Vite 8, React Router 7 (`react-router-dom`), React Context API, CSS3
-- **Backend:** Node.js, Express 5, dotenv, cors, REST API mimarisi
+- **Backend:** Node.js, Express 5, Mongoose 9, MongoDB (Atlas / Yerel), dotenv, cors, REST API mimarisi
 
 ---
 
@@ -35,10 +35,11 @@ npm run build    # Production build
 npm run preview  # Build önizleme
 ```
 
-### Backend (REST API Sunucusu)
+### Backend (REST API Sunucusu & MongoDB)
 ```bash
 cd backend
 npm install
+npm run seed     # Veritabanını 6 başlangıç etkinliğiyle doldurur (idempotent)
 npm run dev      # node --watch src/server.js (http://localhost:3000)
 npm start        # node src/server.js
 ```
@@ -61,13 +62,13 @@ npm start        # node src/server.js
 | `/admin/:id/edit` | `EditEventPage` | Mevcut etkinlik bilgilerini dolduran güncelleme formu (`updateEvent`) |
 | `*` | `NotFoundPage` | Geçersiz adreslerde veya bulunamayan etkinliklerde gösterilen 404 sayfası |
 
-### Backend REST API Endpoint'leri (Sprint 7)
+### Backend REST API Endpoint'leri (Sprint 8: MongoDB & Mongoose)
 | METHOD | ENDPOINT | AÇIKLAMA | DURUM |
 |---|---|---|---|
-| GET | `/health` | Sunucu kontrolü ve öğrenci no (`21210327744`) | Sprint 7 |
-| GET | `/events` | Tüm etkinlik listesi (opsiyonel `?category=` filtresi) | Sprint 7 |
-| GET | `/events/:id` | Tek etkinlik detayı (bulunamadıysa 404) | Sprint 7 |
-| POST | `/events` | Yeni etkinlik oluşturma (zorunlu: title, category, date) | Sprint 7 |
+| GET | `/health` | Sunucu kontrolü ve öğrenci no (`21210327744`) | Sprint 7 & 8 |
+| GET | `/events` | MongoDB etkinlik listesi (opsiyonel `?category=` filtresi) | Sprint 8 |
+| GET | `/events/:id` | Tek etkinlik detayı (MongoDB `_id`, bulunamadıysa 404) | Sprint 8 |
+| POST | `/events` | Yeni etkinlik oluşturma (Mongoose validasyonu, 201 Created) | Sprint 8 |
 | PATCH | `/events/:id` | Etkinlik güncelleme | Sprint 9 |
 | DELETE | `/events/:id` | Etkinlik silme | Sprint 9 |
 
@@ -115,6 +116,16 @@ npm start        # node src/server.js
 - `GET /events`, `GET /events/:id` ve `POST /events` endpoint'leri eksiksiz doğrulama ve durum kodlarıyla (`200`, `201`, `400`, `404`) uygulandı.
 - Postman Collection v2.1 formatında `requests/kampus-api.json` koleksiyonu 6 test ile oluşturuldu.
 - Etiket: `sprint-07`.
+
+### Sprint 8: MongoDB ve Mongoose (Kalıcı Veri)
+- Backend uygulamasına Mongoose ODM (`mongoose`) eklendi.
+- `src/config/database.js` ile güvenli ve esnek (yerel MongoDB veya Atlas) veritabanı bağlantı modülü kuruldu.
+- `src/models/event-model.js` içinde şema validasyonları (min/max karakter, enum, varsayılanlar) ve zaman damgaları (`timestamps: true`) ile `Event` modeli oluşturuldu.
+- `src/data/seed-events.js` ve `src/seed.js` modülleri hazırlanarak `npm run seed` komutu idempotent (tekrar çalıştırılabilir ve her seferinde 6 özgün etkinliği sıfırlayıp yükleyen) hale getirildi.
+- `server.js` veritabanı bağlantısı kurulmadan sunucu dinlemeye başlamayacak şekilde güncellendi.
+- Kontrolör katmanı (`event-controller.js`) MongoDB üzerinde sorgu, sıralama (`date: 1`), `mongoose.isValidObjectId` kontrolü ile 404 yönetimi ve `ValidationError` 400 yakalamasıyla refactor edildi.
+- `app.js` içine 500 genel hata yakalama middleware'i eklendi.
+- Etiket: `sprint-08`.
 
 ---
 

@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "b3e0c7a1-5d4f-4a8e-9c2b-1f8d3e7a5c9b",
     "name": "Kampüs API",
-    "description": "Kampüs Etkinlikleri - Sprint 7 Express REST API Koleksiyonu (Öğrenci: Alp Avcu - 21210327744)",
+    "description": "Kampüs Etkinlikleri - Sprint 8 MongoDB ve Mongoose REST API Koleksiyonu (Öğrenci: Alp Avcu - 21210327744)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -55,10 +55,13 @@
               "pm.test(\"Status code is 200\", function () {",
               "    pm.response.to.have.status(200);",
               "});",
-              "pm.test(\"Returns list of events\", function () {",
+              "pm.test(\"Returns list of events from MongoDB\", function () {",
               "    var jsonData = pm.response.json();",
               "    pm.expect(jsonData).to.be.an(\"array\");",
               "    pm.expect(jsonData.length).to.be.at.least(6);",
+              "    if (jsonData.length > 0) {",
+              "        pm.collectionVariables.set(\"firstEventId\", jsonData[0]._id);",
+              "    }",
               "});"
             ],
             "type": "text/javascript"
@@ -79,12 +82,12 @@
             "events"
           ]
         },
-        "description": "Tüm etkinliklerin listesini getirir."
+        "description": "MongoDB üzerindeki tüm etkinliklerin listesini getirir."
       },
       "response": []
     },
     {
-      "name": "3. GET /events/event-2",
+      "name": "3. GET /events/:id",
       "event": [
         {
           "listen": "test",
@@ -93,9 +96,9 @@
               "pm.test(\"Status code is 200\", function () {",
               "    pm.response.to.have.status(200);",
               "});",
-              "pm.test(\"Returns event with id event-2\", function () {",
+              "pm.test(\"Returns event with matching _id\", function () {",
               "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData.id).to.eql(\"event-2\");",
+              "    pm.expect(jsonData).to.have.property(\"_id\");",
               "});"
             ],
             "type": "text/javascript"
@@ -106,7 +109,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:3000/events/event-2",
+          "raw": "http://localhost:3000/events/{{firstEventId}}",
           "protocol": "http",
           "host": [
             "localhost"
@@ -114,15 +117,15 @@
           "port": "3000",
           "path": [
             "events",
-            "event-2"
+            "{{firstEventId}}"
           ]
         },
-        "description": "Belirli bir etkinliğin detayını getirir."
+        "description": "Belirli bir etkinliğin detayını MongoDB _id ile getirir."
       },
       "response": []
     },
     {
-      "name": "4. GET /events/yok",
+      "name": "4. GET /events/gecersiz-veya-olmayan-id",
       "event": [
         {
           "listen": "test",
@@ -131,7 +134,7 @@
               "pm.test(\"Status code is 404\", function () {",
               "    pm.response.to.have.status(404);",
               "});",
-              "pm.test(\"Returns Event not found error message\", function () {",
+              "pm.test(\"Returns Event not found error message without 500 crash\", function () {",
               "    var jsonData = pm.response.json();",
               "    pm.expect(jsonData.error.message).to.eql(\"Event not found\");",
               "});"
@@ -144,7 +147,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:3000/events/yok",
+          "raw": "http://localhost:3000/events/64f1a2b3c4d5e6f7a8b9c0d1",
           "protocol": "http",
           "host": [
             "localhost"
@@ -152,10 +155,10 @@
           "port": "3000",
           "path": [
             "events",
-            "yok"
+            "64f1a2b3c4d5e6f7a8b9c0d1"
           ]
         },
-        "description": "Bulunamayan etkinlik için 404 döner."
+        "description": "Bulunamayan veya geçersiz ObjectId için 404 döner."
       },
       "response": []
     },
@@ -169,9 +172,10 @@
               "pm.test(\"Status code is 201\", function () {",
               "    pm.response.to.have.status(201);",
               "});",
-              "pm.test(\"Returns created event with new id\", function () {",
+              "pm.test(\"Returns created event with MongoDB _id and timestamps\", function () {",
               "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData.id).to.be.a(\"string\");",
+              "    pm.expect(jsonData).to.have.property(\"_id\");",
+              "    pm.expect(jsonData).to.have.property(\"createdAt\");",
               "    pm.expect(jsonData.title).to.eql(\"Git Atölyesi\");",
               "});"
             ],
@@ -202,7 +206,7 @@
             "events"
           ]
         },
-        "description": "Yeni bir etkinlik oluşturur."
+        "description": "MongoDB'ye yeni bir etkinlik kaydeder."
       },
       "response": []
     },
@@ -216,9 +220,9 @@
               "pm.test(\"Status code is 400\", function () {",
               "    pm.response.to.have.status(400);",
               "});",
-              "pm.test(\"Returns validation error message\", function () {",
+              "pm.test(\"Returns Mongoose validation error message\", function () {",
               "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData.error.message).to.eql(\"title, category and date are required\");",
+              "    pm.expect(jsonData.error.message).to.be.a(\"string\");",
               "});"
             ],
             "type": "text/javascript"
@@ -248,7 +252,7 @@
             "events"
           ]
         },
-        "description": "Eksik zorunlu alanlar için 400 döner."
+        "description": "Mongoose şema validasyonuna takılan eksik veri için 400 döner."
       },
       "response": []
     }

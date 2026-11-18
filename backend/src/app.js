@@ -28,4 +28,14 @@ app.use((req, res) => {
   });
 });
 
+// Global 500 error handler middleware
+app.use((err, req, res, next) => {
+  console.error(err.message);
+  res.status(500).json({
+    error: {
+      message: 'Server error'
+    }
+  });
+});
+
 export default app;

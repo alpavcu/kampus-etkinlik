@@ -1,54 +1,53 @@
-import { events } from '../data/events.js';
+import mongoose from 'mongoose';
+import { Event } from '../models/event-model.js';
 
-export const getEvents = (req, res) => {
-  const { category } = req.query;
-  if (category) {
-    const filtered = events.filter((e) => e.category === category);
-    return res.status(200).json(filtered);
+export const getEvents = async (req, res, next) => {
+  try {
+    const { category } = req.query;
+    const filter = category ? { category } : {};
+    const events = await Event.find(filter).sort({ date: 1 });
+    return res.status(200).json(events);
+  } catch (err) {
+    next(err);
   }
-  return res.status(200).json(events);
 };
 
-export const getEventById = (req, res) => {
-  const { id } = req.params;
-  const event = events.find((e) => e.id === id);
-  if (!event) {
-    return res.status(404).json({
-      error: {
-        message: 'Event not found'
-      }
-    });
+export const getEventById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(404).json({
+        error: {
+          message: 'Event not found'
+        }
+      });
+    }
+    const event = await Event.findById(id);
+    if (!event) {
+      return res.status(404).json({
+        error: {
+          message: 'Event not found'
+        }
+      });
+    }
+    return res.status(200).json(event);
+  } catch (err) {
+    next(err);
   }
-  return res.status(200).json(event);
 };
 
-export const createEvent = (req, res) => {
-  const { title, category, date, capacity, time, location, description } = req.body ?? {};
-
-  if (!title || !category || !date) {
-    return res.status(400).json({
-      error: {
-        message: 'title, category and date are required'
-      }
-    });
+export const createEvent = async (req, res, next) => {
+  try {
+    const event = await Event.create(req.body ?? {});
+    return res.status(201).json(event);
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+      return res.status(400).json({
+        error: {
+          message: err.message
+        }
+      });
+    }
+    next(err);
   }
-
-  let newId = `event-${Date.now()}`;
-  while (events.some((e) => e.id === newId)) {
-    newId = `event-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-  }
-
-  const newEvent = {
-    id: newId,
-    title,
-    category,
-    capacity: Number(capacity) || 0,
-    date,
-    time: time ?? '',
-    location: location ?? '',
-    description: description ?? ''
-  };
-
-  events.push(newEvent);
-  return res.status(201).json(newEvent);
 };
