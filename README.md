@@ -62,15 +62,16 @@ npm start        # node src/server.js
 | `/admin/:id/edit` | `EditEventPage` | Mevcut etkinlik bilgilerini dolduran güncelleme formu (`updateEvent`) |
 | `*` | `NotFoundPage` | Geçersiz adreslerde veya bulunamayan etkinliklerde gösterilen 404 sayfası |
 
-### Backend REST API Endpoint'leri (Sprint 8: MongoDB & Mongoose)
+### Backend REST API Endpoint'leri (Sprint 9: Tam CRUD)
 | METHOD | ENDPOINT | AÇIKLAMA | DURUM |
 |---|---|---|---|
-| GET | `/health` | Sunucu kontrolü ve öğrenci no (`21210327744`) | Sprint 7 & 8 |
-| GET | `/events` | MongoDB etkinlik listesi (opsiyonel `?category=` filtresi) | Sprint 8 |
-| GET | `/events/:id` | Tek etkinlik detayı (MongoDB `_id`, bulunamadıysa 404) | Sprint 8 |
-| POST | `/events` | Yeni etkinlik oluşturma (Mongoose validasyonu, 201 Created) | Sprint 8 |
-| PATCH | `/events/:id` | Etkinlik güncelleme | Sprint 9 |
-| DELETE | `/events/:id` | Etkinlik silme | Sprint 9 |
+| GET | `/health` | Sunucu kontrolü ve öğrenci no (`21210327744`) | Çalışıyor |
+| GET | `/events` | MongoDB etkinlik listesi (opsiyonel `?search=` ve `?category=` filtreleri) | Çalışıyor |
+| GET | `/events/upcoming` | Yaklaşan etkinlikler (tarih ve saate göre sıralı, geçmiş etkinlikler hariç) | Çalışıyor |
+| GET | `/events/:id` | Tek etkinlik detayı (MongoDB `_id`, bulunamadıysa 404) | Çalışıyor |
+| POST | `/events` | Yeni etkinlik oluşturma (Mongoose validasyonu, 201 Created) | Çalışıyor |
+| PATCH | `/events/:id` | Etkinlik kısmi güncelleme (`_id`, `createdAt` korumalı, 200 OK) | Çalışıyor |
+| DELETE | `/events/:id` | Etkinlik silme (`204 No Content`, gövde yok) | Çalışıyor |
 
 ---
 
@@ -126,6 +127,18 @@ npm start        # node src/server.js
 - Kontrolör katmanı (`event-controller.js`) MongoDB üzerinde sorgu, sıralama (`date: 1`), `mongoose.isValidObjectId` kontrolü ile 404 yönetimi ve `ValidationError` 400 yakalamasıyla refactor edildi.
 - `app.js` içine 500 genel hata yakalama middleware'i eklendi.
 - Etiket: `sprint-08`.
+
+### Sprint 9: Tam CRUD (PATCH, DELETE ve Sorgular)
+- `src/utils/date.js` modülü ile `GG-AA-YYYY` biçiminde tarih ayrıştırma (`parseDate`), biçimlendirme (`formatDate`) ve bugünün başlangıcı (`todayStart`) fonksiyonları uygulandı.
+- `Event` modelinde tarih alanı veritabanında gerçek `Date` (UTC), JSON çıktısında `GG-AA-YYYY` metin formatı olacak şekilde getter/setter ile yapılandırıldı.
+- `seed-events.js` dosyasında en az 2 geçmiş tarihli etkinlik tanımlandı; seed işlemi güncellendi.
+- `event-routes.js` üzerinde `/events/upcoming` rotası `/:id` rotasının önüne yerleştirildi.
+- `PATCH /events/:id` endpoint'i `runValidators: true`, `returnDocument: "after"`, boş body kontrolü (`Body is empty`) ve korunan alan (`_id`, `createdAt`, `updatedAt`, `__v`) engellemesiyle uygulandı.
+- `DELETE /events/:id` endpoint'i silinen kayıt için `204 No Content` (gövdesiz) ve ikinci çağrıda `404 Not Found` dönecek şekilde uygulandı.
+- `GET /events` sorgusuna büyük/küçük harf duyarsız ve regex karakterlerinden arındırılmış `?search=` ve `?category=` filtreleri eklendi.
+- `GET /events/upcoming` endpoint'i `$gte: todayStart()` filtresiyle yalnızca bugünkü ve gelecekteki etkinlikleri tarihe ve saate göre artan sırada listeler.
+- Hocanın resmi test koleksiyonu (`https://webdersi.vercel.app/test.json`) Newman ile çalıştırılarak 18 istek, 45 test, 0 hata ile doğrulandı ve `run-results.json` oluşturuldu.
+- Etiket: `sprint-09`.
 
 ---
 
